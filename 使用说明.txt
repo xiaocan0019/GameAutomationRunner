@@ -1,0 +1,63 @@
+游戏自动化一键启动器
+
+日常主要使用这三个入口：
+
+1. StartGameAutomation.bat
+   按配置顺序运行所有启用的自动化任务。
+
+2. Configure.bat
+   打开统一配置菜单，可以设置：
+   - 查看当前配置
+   - 调整运行顺序
+   - 启用或禁用某个自动化流程
+   - 设置任务完成后是否关闭游戏和自动化软件
+   - 设置每个任务的超时时间
+   - 快速打开 BetterGI、March7th、MaaEnd、MAA
+   - 恢复默认配置
+
+3. SetupLocalConfig.bat
+   第一次在新电脑上使用，或分享给别人后，由对方运行它来填写本机路径。
+   它会生成 app\config\LocalPaths.json，主程序会优先读取这里的路径。
+
+单独测试入口：
+- shortcuts\RunBetterGI.bat
+- shortcuts\RunMarch7th.bat
+- shortcuts\RunMaaEnd.bat
+- shortcuts\RunMAA.bat
+
+这些入口会忽略“启用/禁用流程”的配置，只运行对应任务。
+
+只打开软件：
+在 Configure.bat 里选择“快速打开软件”下面的 7-10，可以只打开软件本体，不会点击开始任务，也不会等待日志。
+
+当前支持的流程：
+1. BetterGI
+2. March7th
+3. MaaEnd
+4. MAA
+
+MAA 说明：
+- 路径：F:\MAA-v5.22.2-win-x64\MAA.exe
+- 启动方式：打开后点击 Link Start!
+- 完成判断：读取 debug\asst*.log 中的新 AllTasksCompleted 标志
+- 完成后关闭：只关闭 MAA，不关闭模拟器或游戏
+
+运行顺序设置：
+在 Configure.bat 里选择“设置运行顺序”，然后输入类似 1,2,3,4。
+
+例如：
+3,2,1,4 表示先 MaaEnd，再 March7th，再 BetterGI，最后 MAA。
+
+日志规则：
+主程序日志和每个任务日志最多保留 10 份，旧日志会自动删除。
+
+失败处理：
+每个任务失败后会自动重试，最多 3 次。如果 3 次仍失败，会跳过该任务继续下一个任务。
+
+启动前检查：
+主程序启动后会检查管理员权限、程序路径、日志目录和超时设置。
+管理员权限缺失会直接停止；某个自动化软件或日志目录不存在时，只会记录警告，该任务之后会按失败逻辑重试 3 次，仍失败则跳过并继续下一个任务。
+
+分享给别人：
+详细迁移说明见 README.md。别人通常需要修改软件路径、日志目录、窗口标题、完成标志和备用坐标。
+如果对方使用的是软件默认窗口标题、默认按钮文字和默认日志格式，通常只需要先运行 SetupLocalConfig.bat 填写本机路径。
