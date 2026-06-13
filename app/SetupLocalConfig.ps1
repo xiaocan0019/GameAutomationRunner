@@ -138,4 +138,4 @@ $result | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $LocalPathsPath -En
 
 Write-Host ""
 Write-Host "本地路径配置已保存：$LocalPathsPath"
-Write-Host "下一步可以运行 Configure.bat 调整启用状态、顺序、超时和完成后关闭行为。"
+Write-Host "下一步可以运行 GameAutomationConfig.exe 调整启用状态、顺序、超时和完成后关闭行为。"
